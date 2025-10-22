@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="canonical" href="<%= request.url %>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#243746">
+    <meta name="theme-color" content="#f9f8f5">
+    <title>
+      <% if @title && @title != "dxw's Playbook" %><%= @title %> - <% end %>Playbook - dxw
+    </title>
+    <link rel="stylesheet" href="/stylesheets/all.css"/>
+  </head>
+  <body>
+    <header>
+      <%= erb :'includes/navbar' %>
+      <%= erb :'includes/related_pages' %>
+      <%= erb :'includes/contribute' %>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<article class="page-content">
+  <% if @query && !@query.empty? %>
+    <h1>Showing <%= @results.length %> result<%= @results.length == 1 ? '' : 's' %> for "<%= @query %>"</h1>
+    
+    <% if @results && @results.any? %>
+      <div class="search-results">        
+        <% @results.each do |result| %>
+          <div class="search-result-item">
+            <h2 class="search-result-title">
+              <a href="<%= result.url %>"><%= result.title %></a>
+            </h2>
+            <div class="search-result-excerpt">
+              <%= result.excerpt %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="no-results">
+        <p>No results found for "<%= @query %>". Try:</p>
+        <ul>
+          <li>Checking your spelling</li>
+          <li>Using different keywords</li>
+          <li>Using more general terms</li>
+        </ul>
+      </div>
+    <% end %>
+  <% else %>
+    <h1>Enter a search term</h1>
+    <div class="search-instructions">
+      <p>Enter a search term in the search box.</p>
+    </div>
+  <% end %>
+</article>

@@ -1,0 +1,109 @@
+@use "./breakpoints";
+@use "./colours";
+@use "./typography";
+
+$large-screen-nav-height: 134.992px;
+$large-screen-contribute-height: 63px;
+$list-d-size: 11px;
+
+.related {
+  overflow-y: auto;
+
+  width: 100%;
+  padding: 1em;
+
+  font-family: typography.$heading-font-family;
+  font-size: 0.9em;
+
+  background-color: colours.$accent-a;
+
+  a {
+    display: block;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration-color: colours.$accent-b;
+      text-decoration-line: underline;
+      text-decoration-thickness: 0.15em;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &.children {
+      padding-left: 1.5em;
+    }
+
+    li {
+      margin: 0;
+      padding-right: 2em;
+      white-space: nowrap;
+    }
+  }
+
+  nav > ul {
+    display: flex;
+  }
+}
+
+@include breakpoints.on-large-screens {
+  .related {
+    height: calc(100vh - $large-screen-nav-height - $large-screen-contribute-height);
+    padding: 1.5em 1em;
+    background-color: colours.$cream;
+    
+    ul li {
+      position: relative;
+      padding-right: 0;
+      padding-left: calc($list-d-size + 10px);
+      white-space: unset;
+
+      &:not(:is(:last-child, .related__back-link)) {
+        margin-bottom: 0.5em;
+      }
+
+      a {
+        &:hover,
+        &:focus,
+        &:active {
+          text-decoration-color: colours.$accent-a;
+        }
+      }
+      
+      &.related__back-link {
+        margin-bottom: 1.5em;
+
+        &::before {
+          content: "ᐊ";
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+  
+      &:not(.related__back-link)::before {
+        content: "";
+  
+        position: absolute;
+        top: 8px;
+        left: 0;
+  
+        width: $list-d-size;
+        height: $list-d-size;
+  
+        background: url("/assets/images/d-symbol-blue.svg");
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+
+    nav > ul {
+      display: unset;
+    }
+  }
+}

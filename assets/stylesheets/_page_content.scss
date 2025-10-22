@@ -1,0 +1,63 @@
+@use "sass:math";
+
+@use "./colours";
+
+.page-content {
+  will-change: scroll-position;
+  scroll-behavior: smooth;
+
+  overflow-y: auto;
+
+  max-width: 40em;
+  margin: 0 auto;
+  padding: 2em;
+
+  font-size: 1em;
+
+  > h1 {
+    margin-top: 0;
+  }
+
+  > h1,
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
+    margin-right: -0.5em;
+    margin-left: -0.5em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+
+    a {
+      font-size: 0.7em;
+      color: colours.$accent-b;
+      text-decoration: none;
+      vertical-align: middle;
+
+      transition: color 0.2s;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: colours.$navy;
+      }
+    }
+
+    &:target a {
+      display: none;
+    }
+  }
+
+  :target {
+    background: colours.$yellow-light;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+#last-review-and-updated {
+  margin-bottom: 0;
+}

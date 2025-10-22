@@ -1,0 +1,75 @@
+@use "./colours";
+
+$body-font-family: poppins, serif;
+$body-font-weight: 400;
+$body-font-weight-bold: 700;
+$heading-font-family: poppins, sans-serif;
+$heading-font-weight: 600;
+
+@import "https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap";
+
+body {
+  font-family: $body-font-family;
+  font-size: 15pt;
+  font-weight: $body-font-weight;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  color: colours.$navy;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font-family;
+  font-weight: $heading-font-weight;
+}
+
+h6 {
+  font-size: 0.75em;
+}
+
+strong {
+  font-weight: $body-font-weight-bold;
+}
+
+a {
+  color: colours.$navy;
+  text-decoration-color: colours.$accent-b;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.1em;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration-color: colours.$navy;
+  }
+}
+
+code,
+pre {
+  color: colours.$navy;
+  background-color: colours.$cream;
+}
+
+code {
+  padding: 0.1em 0.2em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1em;
+}
+
+blockquote {
+  margin-right: 0;
+  margin-left: 0;
+  padding-left: 1em;
+  border-left: 3px solid colours.$accent-b;
+}
+
+li {
+  margin-bottom: 1em;
+}

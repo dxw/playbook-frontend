@@ -1,0 +1,93 @@
+AllCops:
+  Exclude:
+    - 'config/application.rb'
+    - 'config/puma.rb'
+    - 'config/environments/*.rb'
+    - 'config/initializers/*.rb'
+    - 'db/seeds.rb'
+    - 'db/schema.rb'
+    - 'db/migrate/*.rb'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+
+Layout/EndOfLine:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+
+Layout/LeadingCommentSpace:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/LineLength:
+  Max: 150
+  Exclude:
+    - 'spec/**/*'
+    - 'Gemfile'
+
+Lint/ScriptPermission:
+  Enabled: false
+
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+  Max: 20
+
+Metrics/BlockLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  Exclude:
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+Metrics/MethodLength:
+  Max: 20
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  Exclude:
+    - 'spec/**/*'
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Style/BlockComments:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+  
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/OptionalBooleanParameter:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/StringConcatenation:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
