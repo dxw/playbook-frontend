@@ -6,7 +6,7 @@ $large-screen-nav-height: 134.992px;
 $large-screen-contribute-height: 63px;
 $list-d-size: 11px;
 
-.related {
+.page-navigation {
   overflow-y: auto;
 
   width: 100%;
@@ -35,14 +35,31 @@ $list-d-size: 11px;
     padding: 0;
     list-style: none;
 
-    &.children {
-      padding-left: 1.5em;
-    }
-
     li {
-      margin: 0;
+      margin: 0.5rem 0;
       padding-right: 2em;
       white-space: nowrap;
+
+      &.current-page {
+        > a {
+          font-weight: bold;
+        }
+
+        // Show child lists of the current page
+        > ul {
+          display: block;
+        }
+      }
+
+      ul {
+        // Hide child lists by default
+        display: none;
+
+        // Show child lists if the current page is within them
+        &:has(li.current-page) {
+          display: block;
+        }
+      }
     }
   }
 
@@ -52,7 +69,7 @@ $list-d-size: 11px;
 }
 
 @include breakpoints.on-large-screens {
-  .related {
+  .page-navigation {
     height: calc(100vh - $large-screen-nav-height - $large-screen-contribute-height);
     padding: 1.5em 1em;
     background-color: colours.$cream;

@@ -16,6 +16,21 @@ if development?
   # BetterErrors.application_root = __dir__
 end
 
+helpers do
+  def render_page_navigation(pages, current_page_id = nil)
+    pages ||= OutlineClient.new.get_collection_structure
+    html = "<ul>"
+    pages.each do |page|
+      html += page['id'] == current_page_id ? "<li class='current-page'>" : "<li>"
+      html += "<a href='#{page['url']}'>#{page['title']}</a>"
+      html += render_page_navigation(page['children'], current_page_id) if page['children']&.any?
+      html += "</li>"
+    end
+    html += "</ul>"
+    html
+  end
+end
+
 # Routes
 get '/' do
   @document = Document.new(data: OutlineClient.new.get_collection, is_collection: true)

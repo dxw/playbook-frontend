@@ -48,21 +48,6 @@ class Document
     @children ||= find_in_structure(id)['children']
   end
 
-  def siblings
-    return @siblings if defined?(@siblings)
-
-    docs_at_same_level = if parent_document_id.nil?
-                           outline_client.get_collection_structure
-                         else
-                           find_in_structure(parent_document_id)['children']
-                         end
-    @siblings = docs_at_same_level.reject { |doc| doc['id'] == id }
-  end
-
-  def has_related_pages?
-    !children.empty? || !siblings.empty?
-  end
-
   def valid?
     !@doc.nil? && !@doc.empty? && !@doc.key?('error')
   end
