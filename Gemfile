@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby File.read(".ruby-version").strip
+
 gem 'dotenv'           # Load environment variables from .env file
 gem 'httparty'         # Simple HTTP client for making API requests to Outline
 gem 'json'             # JSON parsing and generation for API responses
