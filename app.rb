@@ -63,6 +63,7 @@ end
 
 # Error handling
 error do
+  @title = 'Error'
   @error = env['sinatra.error']
   erb :error
 end
