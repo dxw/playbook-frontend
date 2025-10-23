@@ -1,6 +1,6 @@
 require 'httparty'
 require 'json'
-require 'byebug'
+require 'byebug' if development?
 
 class OutlineClient
   include HTTParty

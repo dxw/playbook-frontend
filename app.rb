@@ -3,7 +3,7 @@ require 'sinatra/reloader' if development?
 require 'dotenv/load'
 require 'redcarpet'
 require 'sass-embedded'
-require 'byebug'
+require 'byebug' if development?
 require_relative 'lib/outline_client'
 require_relative 'models/document'
 
