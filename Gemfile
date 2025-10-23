@@ -5,9 +5,9 @@ ruby File.read(".ruby-version").strip
 gem 'dotenv'           # Load environment variables from .env file
 gem 'httparty'         # Simple HTTP client for making API requests to Outline
 gem 'json'             # JSON parsing and generation for API responses
+gem 'kramdown'         # Markdown parser
 gem 'puma'             # High-performance web server for Ruby applications
 gem 'rackup'           # Rack server command for running web applications
-gem 'redcarpet'        # Markdown parser
 gem 'sass-embedded'    # Embedded SASS compiler for styling
 gem 'sinatra'          # Lightweight web framework for Ruby
 gem 'sinatra-contrib'  # Extensions for Sinatra (includes reloader for development)

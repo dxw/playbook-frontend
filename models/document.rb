@@ -1,5 +1,4 @@
-require 'redcarpet'
-require 'redcarpet/render_strip'
+require 'kramdown'
 
 class Document
   attr_reader :doc
@@ -88,18 +87,20 @@ class Document
       outline_client.get_attachment_url(attachment_id)
     end
 
-    html = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true).render(processed_content)
+    html = Kramdown::Document.new(processed_content).to_html
     add_anchor_headings(html)
   end
 
   def md_to_plain_text(markdown)
     return '' unless markdown
 
-    # First remove links but keep the link text
-    processed = markdown.gsub(/!?\[([^\]]*)\]\([^)]+\)/, '\1')
-
-    # Then strip down to plain text
-    Redcarpet::Markdown.new(Redcarpet::Render::StripDown).render(processed)
+    # Simple conversion: remove markdown syntax to get plain text
+    text = markdown.dup
+    text.gsub!(/!\[.*?\]\(.*?\)/, '')          # Remove images
+    text.gsub!(/\[([^\]]+)\]\(.*?\)/, '\1')    # Convert links to just the text
+    text.gsub!(/[#>*_`~-]/, '')                # Remove other markdown characters
+    text.gsub!(/\n{2,}/, "\n") # Collapse multiple newlines
+    text.strip
   end
 
   def outline_client

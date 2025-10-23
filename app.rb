@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'dotenv/load'
-require 'redcarpet'
+require 'kramdown'
 require 'sass-embedded'
 require 'byebug' if development?
 require_relative 'lib/outline_client'
