@@ -69,9 +69,13 @@ get '/search' do
   erb :search
 end
 
-# Sass compilation route
-get '/stylesheets/all.css' do
+# Sass compilation route (development only - production serves from public/)
+get '/stylesheets/style.css' do
+  # In production, let static file serving handle this
+  pass if settings.environment == :production
+
   content_type 'text/css', charset: 'utf-8'
+  puts "Compiling SASS for development..."
   sass_file = File.read('assets/stylesheets/all.scss')
   Sass.compile_string(sass_file,
                       style: :compressed,

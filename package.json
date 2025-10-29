@@ -1,7 +1,13 @@
 {
   "name": "playbook-overlay",
   "description": "A frontend for dxw's internal playbook, powered by Outline",
+  "scripts": {
+    "build": "sass assets/stylesheets/all.scss public/stylesheets/style.css --style=compressed --load-path=assets/stylesheets --load-path=node_modules"
+  },
   "dependencies": {
     "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "sass": "^1.93.2"
   }
 }
