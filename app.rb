@@ -5,6 +5,7 @@ require 'kramdown'
 require 'sass-embedded'
 require 'byebug' if development?
 require_relative 'lib/outline_client'
+require_relative 'lib/url_mapper'
 require_relative 'models/document'
 require_relative 'models/search_result'
 
@@ -86,6 +87,10 @@ end
 
 # 404 handling
 not_found do
+  # Try to find a redirect URL
+  redirect_url = UrlMapper.new.get_redirect_url(request.path_info)
+  redirect redirect_url, 301 if redirect_url # Permanent redirect
+
   @title = 'Page not found'
   erb :not_found
 end
