@@ -1,5 +1,5 @@
 <aside class="page-navigation">
   <nav aria-label="Page navigation">
-    <%= render_page_navigation(nil, @document&.id) %>
+    <%= render_page_navigation(nil, @document&.valid? ? @document.id : nil) %>
   </nav>
 </aside>

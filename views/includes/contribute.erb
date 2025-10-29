@@ -1,5 +1,5 @@
 <div class="contribute" data-proofer-ignore>
-  <% if @document %>
+  <% if @document&.valid? %>
     <a href="https://dxw.getoutline.com<%= @document.edit_url %>">Edit page</a>
   <% else %>
     <a href="https://dxw.getoutline.com/collection/<%= ENV.fetch('OUTLINE_COLLECTION_ID', nil) %>">Contribute to the Playbook</a>

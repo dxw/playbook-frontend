@@ -19,7 +19,7 @@ if development?
 end
 
 helpers do
-  def render_page_navigation(pages, current_page_id = nil)
+  def render_page_navigation(pages = nil, current_page_id = nil)
     pages ||= OutlineClient.new.get_collection_structure
     html = "<ul>"
     pages.each do |page|
@@ -43,19 +43,19 @@ end
 
 get '/doc/:id' do
   @document = Document.new(id: params[:id])
-
   if @document.valid?
     @title = @document.title
     @status = :ok
+    erb :document
   elsif @document.error?
     @title = 'Error'
     @status = :error
+    erb :error
   else
     @title = 'Document Not Found'
     @status = :not_found
+    erb :not_found
   end
-
-  erb :document
 end
 
 get '/search' do
