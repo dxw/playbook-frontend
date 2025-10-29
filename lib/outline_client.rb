@@ -18,7 +18,9 @@ class OutlineClient
     cache_key = "document_#{id}"
 
     @cache.fetch(cache_key, type: :document) do
-      make_request('documents.info', { id: id })['data']
+      document = make_request('documents.info', { id: id })['data']
+      title = document&.dig('title')
+      document unless title&.downcase&.include?('[private]')
     end
   end
 

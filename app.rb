@@ -23,6 +23,8 @@ helpers do
     pages ||= OutlineClient.new.get_collection_structure
     html = "<ul>"
     pages.each do |page|
+      next if page['title'].downcase.include?('[private]')
+
       html += page['id'] == current_page_id ? "<li class='current-page'>" : "<li>"
       html += "<a href='#{page['url']}'>#{page['title']}</a>"
       html += render_page_navigation(page['children'], current_page_id) if page['children']&.any?
