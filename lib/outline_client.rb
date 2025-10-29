@@ -10,24 +10,6 @@ class OutlineClient
     @collection_id = ENV.fetch('OUTLINE_COLLECTION_ID', nil)
   end
 
-  def get_documents(parent_document_id: :unset)
-    all_documents = []
-    offset = 0
-    limit = 100
-
-    loop do
-      body = { collectionId: @collection_id, limit: limit, offset: offset }
-      body[:parentDocumentId] = parent_document_id unless parent_document_id == :unset
-      response = make_request('documents.list', body)
-
-      all_documents.concat(response['data'])
-      offset += limit
-      break if response['pagination']['total'] <= offset + limit
-    end
-
-    all_documents
-  end
-
   # Documents
 
   def get_document(id)
