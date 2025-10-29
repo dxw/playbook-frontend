@@ -1,4 +1,6 @@
 {
+  "name": "playbook-overlay",
+  "description": "A frontend for dxw's internal playbook, powered by Outline",
   "dependencies": {
     "normalize.css": "^8.0.1"
   }
