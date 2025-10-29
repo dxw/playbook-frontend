@@ -6,6 +6,7 @@ require 'sass-embedded'
 require 'byebug' if development?
 require_relative 'lib/outline_client'
 require_relative 'models/document'
+require_relative 'models/search_result'
 
 # Configure better_errors for development
 if development?
@@ -59,7 +60,7 @@ end
 get '/search' do
   @query = params[:query] || params[:q]
   if @query && !@query.empty?
-    @results = OutlineClient.new.search_documents(@query).map { |res| Document.new(data: res['document']) }
+    @results = OutlineClient.new.search_documents(@query).map { |result| SearchResult.new(data: result) }
     @title = 'Search results'
   else
     @title = 'Search'
