@@ -32,3 +32,13 @@ The application will be available at `http://localhost:4567`
 - `GET /` - Homepage
 - `GET /doc/:id` - View a specific page
 - `GET /search?q=query` - Search
+
+## Caching
+
+The application includes Redis caching to improve performance by reducing API calls to Outline. If Redis is not available, the application will run without caching (all requests go directly to Outline's API).
+
+To clear the redis cache:
+
+```bash
+redis-cli FLUSHALL
+```

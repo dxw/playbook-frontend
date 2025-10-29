@@ -1,6 +1,7 @@
 require 'httparty'
 require 'json'
 require 'byebug' if development?
+require_relative 'cache_service'
 
 class OutlineClient
   include HTTParty
@@ -8,33 +9,54 @@ class OutlineClient
   def initialize
     @api_key = ENV.fetch('OUTLINE_API_KEY', nil)
     @collection_id = ENV.fetch('OUTLINE_COLLECTION_ID', nil)
+    @cache = CacheService.new
   end
 
   # Documents
 
   def get_document(id)
-    make_request('documents.info', { id: id })['data']
+    cache_key = "document_#{id}"
+
+    @cache.fetch(cache_key, type: :document) do
+      make_request('documents.info', { id: id })['data']
+    end
   end
 
   def search_documents(query)
-    make_request('documents.search',
-                 { query: query, collectionId: @collection_id, statusFilter: ['published'] })['data']
+    cache_key = "search_#{@collection_id}_#{query}"
+
+    @cache.fetch(cache_key, type: :search) do
+      make_request('documents.search',
+                   { query: query, collectionId: @collection_id, statusFilter: ['published'] })['data']
+    end
   end
 
   # Attachments
 
   def get_attachment_url(attachment_id)
-    make_request('attachments.redirect', { id: attachment_id }, follow_redirects: false)
+    cache_key = "attachment_#{attachment_id}"
+
+    @cache.fetch(cache_key, type: :attachment) do
+      make_request('attachments.redirect', { id: attachment_id }, follow_redirects: false)
+    end
   end
 
   # Collections
 
   def get_collection
-    make_request('collections.info', { id: @collection_id })['data']
+    cache_key = "collection_#{@collection_id}"
+
+    @cache.fetch(cache_key, type: :document) do
+      make_request('collections.info', { id: @collection_id })['data']
+    end
   end
 
   def get_collection_structure
-    @get_collection_structure ||= make_request('collections.documents', { id: @collection_id })['data']
+    cache_key = "collection_structure_#{@collection_id}"
+
+    @cache.fetch(cache_key, type: :collection_structure) do
+      make_request('collections.documents', { id: @collection_id })['data']
+    end
   end
 
   private
