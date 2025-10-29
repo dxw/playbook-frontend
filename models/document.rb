@@ -37,6 +37,10 @@ class Document
     @doc['url']
   end
 
+  def edit_url
+    @is_collection ? "#{@doc['url']}/overview" : "#{@doc['url']}/edit"
+  end
+
   def updated_at
     @doc['updatedAt'] ? Time.parse(@doc['updatedAt']) : nil
   end
