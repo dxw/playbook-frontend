@@ -21,7 +21,7 @@ class Document
   end
 
   def content
-    md_to_html(raw_content)
+    md_to_html(raw_content).strip
   end
 
   def excerpt
