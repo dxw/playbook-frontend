@@ -41,6 +41,9 @@ jobs:
       - name: Run bundler-audit
         run: bundle-audit check
 
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+
   test:
     name: Tests
     runs-on: ubuntu-latest
