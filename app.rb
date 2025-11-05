@@ -4,10 +4,25 @@ require 'dotenv/load'
 require 'kramdown'
 require 'sass-embedded'
 require 'byebug' if development?
+require 'rollbar'
 require_relative 'lib/outline_client'
 require_relative 'lib/url_mapper'
 require_relative 'models/document'
 require_relative 'models/search_result'
+
+# Configure Rollbar for error monitoring
+Rollbar.configure do |config|
+  config.access_token = ENV.fetch('ROLLBAR_ACCESS_TOKEN', nil)
+  config.environment = ENV['RACK_ENV'] || 'development'
+
+  # Only send errors in production
+  config.enabled = ENV['RACK_ENV'] == 'production'
+
+  # Framework integration
+  config.framework = "Sinatra: #{Sinatra::VERSION}"
+end
+
+use Rollbar::Middleware::Rack
 
 # Configure better_errors for development
 if development?

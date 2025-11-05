@@ -11,7 +11,16 @@ Our new Playbook is managed in [Outline](https://dxw.getoutline.com/). This appl
    ```
 
 2. **Configure environment variables**
-   Edit `.env` and set your Outline API credentials.
+   Edit `.env` and set your Outline API credentials
+
+## Error Monitoring
+
+This application uses [Rollbar](https://rollbar.com/) for error tracking and monitoring. To enable:
+
+1. Sign up for a Rollbar account at https://rollbar.com/
+2. Create a project and get your access token
+3. Add `ROLLBAR_ACCESS_TOKEN` to your `.env` file
+4. In production, Rollbar will automatically track errors when the access token is set
 
 ## Running the Application
 

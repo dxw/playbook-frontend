@@ -10,6 +10,7 @@ gem 'kramdown'         # Markdown parser
 gem 'puma'             # High-performance web server for Ruby applications
 gem 'rackup'           # Rack server command for running web applications
 gem 'redis'            # Redis client for caching
+gem 'rollbar'          # Error tracking and monitoring
 gem 'sass-embedded'    # Embedded SASS compiler for styling
 gem 'sinatra'          # Lightweight web framework for Ruby
 gem 'sinatra-contrib'  # Extensions for Sinatra (includes reloader for development)
