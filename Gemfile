@@ -17,6 +17,7 @@ gem 'sinatra-contrib'  # Extensions for Sinatra (includes reloader for developme
 group :development do
   gem 'better_errors'  # Better error pages with interactive console
   gem 'binding_of_caller' # Provides stack frame context for better_errors
+  gem 'bundle-audit'   # Security audit for Bundler dependencies
   gem 'byebug'         # Debugging tool for Ruby
   gem 'rerun'          # Automatically restart the app when files change during development
   gem 'rubocop'        # Ruby static code analyzer and formatter
