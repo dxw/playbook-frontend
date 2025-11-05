@@ -29,10 +29,6 @@ class Document
     text.length > 300 ? "#{text[0..300]}..." : text
   end
 
-  def parent_document_id
-    @doc['parentDocumentId']
-  end
-
   def url
     @doc['url']
   end

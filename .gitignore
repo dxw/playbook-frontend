@@ -1,3 +1,8 @@
 .env
 .byebug_history
 /node_modules
+
+# Test coverage and results
+/coverage
+/spec/examples.txt
+/spec/fixtures/*.csv

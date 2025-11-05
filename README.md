@@ -31,7 +31,17 @@ The application will be available at `http://localhost:4567`
 
 - `GET /` - Homepage
 - `GET /doc/:id` - View a specific page
-- `GET /search?q=query` - Search
+- `GET /search?query=query` - Search
+
+## Testing
+
+```bash
+# Run all tests
+bundle exec rspec
+
+# Run with coverage report
+bundle exec rake coverage
+```
 
 ## Caching
 

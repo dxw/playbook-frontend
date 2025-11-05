@@ -21,3 +21,11 @@ group :development do
   gem 'rerun'          # Automatically restart the app when files change during development
   gem 'rubocop'        # Ruby static code analyzer and formatter
 end
+
+group :test do
+  gem 'factory_bot'    # Creating test data
+  gem 'rack-test'      # Testing API for Rack apps
+  gem 'rspec'          # Testing framework for Ruby
+  gem 'simplecov'      # Code coverage analysis tool
+  gem 'webmock'        # Library for stubbing HTTP requests
+end

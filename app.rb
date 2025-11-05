@@ -47,15 +47,15 @@ get '/doc/:id' do
   @document = Document.new(id: params[:id])
   if @document.valid?
     @title = @document.title
-    @status = :ok
+    status 200
     erb :document
   elsif @document.error?
     @title = 'Error'
-    @status = :error
+    status 500
     erb :error
   else
     @title = 'Document Not Found'
-    @status = :not_found
+    status 404
     erb :not_found
   end
 end
