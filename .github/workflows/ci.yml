@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       redis:
-        image: redis:7-alpine
+        image: redis:8-alpine@sha256:28c9c4d7596949a24b183eaaab6455f8e5d55ecbf72d02ff5e2c17fe72671d31
         ports:
           - 6379:6379
         options: >-
