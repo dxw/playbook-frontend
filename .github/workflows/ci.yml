@@ -32,14 +32,8 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Install bundler-audit
-        run: gem install bundler-audit
-
-      - name: Update vulnerability database
-        run: bundle-audit update
-
-      - name: Run bundler-audit
-        run: bundle-audit check
+      - name: Security audit gems
+        run: bundle exec bundler-audit --update
 
       - name: Run npm audit
         run: npm audit --audit-level=moderate
