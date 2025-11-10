@@ -111,6 +111,41 @@ RSpec.describe 'Playbook Overlay Application' do
         expect(last_response.body).to include('Enter a search term')
       end
     end
+
+    context 'when private documents are returned' do
+      let(:response) do
+        [
+          build(:search_result_data, document: build(:document_data, id: 'public1', title: 'Public Doc')),
+          build(:search_result_data, document: build(:document_data, id: 'secret1', title: 'Private Doc [private]')),
+        ]
+      end
+
+      it 'excludes private documents from results' do
+        get '/search?query=confidential'
+
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Public Doc')
+        expect(last_response.body).not_to include('Private Doc')
+      end
+
+      it 'flags presence of private results' do
+        get '/search?query=confidential'
+
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Some private pages were also returned by the search')
+      end
+    end
+
+    context 'when no private documents are returned' do
+      let(:response) { build(:search_results) }
+
+      it 'does not flag private results' do
+        get '/search?query=public'
+
+        expect(last_response).to be_ok
+        expect(last_response.body).not_to include('Some private pages were also returned by the search')
+      end
+    end
   end
 
   describe 'GET /stylesheets/style.css' do

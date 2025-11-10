@@ -78,7 +78,14 @@ end
 get '/search' do
   @query = params[:query] || params[:q]
   if @query && !@query.empty?
-    @results = OutlineClient.new.search_documents(@query).map { |result| SearchResult.new(data: result) }
+    @results = OutlineClient.new.search_documents(@query).map do |result|
+      if result['document']['title'].downcase.include?('[private]')
+        @has_private_results = true
+        next
+      else
+        SearchResult.new(data: result)
+      end
+    end.compact
     @title = 'Search results'
   else
     @title = 'Search'
