@@ -1,18 +1,14 @@
 <article class="page-content">
   <h1><%= @title %></h1>
 
-  <% if @status != :ok %>
-    <div class="error">
-      <strong>Error:</strong>
-    </div>
-  <% elsif @document.content.empty? %>
-      <ul>
-        <% @document.children.each do |child| %>
-          <li>
-            <a href="<%= child['url'] %>"><%= child['title'] %></a>
-          </li>
-        <% end %>
-      </ul>
+  <% if @document.content.empty? %>
+    <ul>
+      <% @document.children.each do |child| %>
+        <li>
+          <a href="<%= child['url'] %>"><%= child['title'] %></a>
+        </li>
+      <% end %>
+    </ul>
   <% else %>
     <%= @document.content %>
     <hr>
