@@ -68,7 +68,7 @@ RSpec.describe OutlineClient do
 
     it 'searches for documents' do
       expect(response.length).to eq(2)
-      expect(response.first['document']['title']).to include('test')
+      expect(response.first['document']['title']).to include('Sample Document')
     end
 
     context 'when the cache is available' do
