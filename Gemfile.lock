@@ -141,7 +141,7 @@ GEM
     rerun (0.14.0)
       listen (~> 3.0)
     rexml (3.4.4)
-    rollbar (3.6.2)
+    rollbar (3.7.0)
     rouge (4.6.1)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
