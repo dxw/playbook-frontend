@@ -38,12 +38,7 @@ class UrlMapper
 
     mappings = []
     CSV.foreach(@mapping_file, headers: true) do |row|
-      mappings << {
-        old_url: row['old_url'],
-        new_url: row['new_url'],
-        title: row['title'],
-        migrated_at: row['migrated_at'],
-      }
+      mappings << row.to_h.transform_keys(&:to_sym)
     end
     mappings
   rescue StandardError => e
