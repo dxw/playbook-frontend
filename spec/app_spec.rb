@@ -149,16 +149,23 @@ RSpec.describe 'Playbook Overlay Application' do
   end
 
   describe 'GET /stylesheets/style.css' do
-    context 'in development mode' do
-      before do
-        allow(Sinatra::Application).to receive(:environment).and_return(:development)
-      end
-
+    context 'in test environment' do
       it 'compiles SCSS on the fly' do
         get '/stylesheets/style.css'
 
         expect(last_response).to be_ok
         expect(last_response.content_type).to include('text/css')
+      end
+    end
+
+    context 'in production environment' do
+      it 'passes to next handler' do
+        allow(Sinatra::Application.settings).to receive(:environment).and_return(:production)
+
+        get '/stylesheets/style.css'
+
+        # Should pass to the next handler (resulting in 404 since no static file exists)
+        expect(last_response).to be_not_found
       end
     end
   end
