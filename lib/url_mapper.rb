@@ -27,8 +27,8 @@ class UrlMapper
     mapping = find_mapping(url)
     return nil unless mapping
 
-    # Extract document ID from the new URL
-    mapping[:new_url] =~ /\/doc\/.*?-([a-zA-Z0-9]+)$/ ? "/doc/#{::Regexp.last_match(1)}" : nil
+    # Extract path from the new URL
+    mapping[:new_url] =~ /\/doc\/.*?-[a-zA-Z0-9]+$/ ? ::Regexp.last_match(0) : nil
   end
 
   private
