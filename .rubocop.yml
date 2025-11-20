@@ -1,93 +1,49 @@
 AllCops:
   Exclude:
-    - 'config/application.rb'
     - 'config/puma.rb'
-    - 'config/environments/*.rb'
-    - 'config/initializers/*.rb'
-    - 'db/seeds.rb'
-    - 'db/schema.rb'
-    - 'db/migrate/*.rb'
     - 'node_modules/**/*'
     - 'vendor/**/*'
   NewCops: enable
 
-Layout/EndOfLine:
-  Enabled: false
-
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/HashAlignment:
+Layout/HashAlignment: # Helps make hashes more readable
   EnforcedHashRocketStyle: table
 
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/LineLength:
+Layout/LineLength: # Screens are wide enough these days
   Max: 150
   Exclude:
     - 'spec/**/*'
     - 'Gemfile'
 
-Lint/ScriptPermission:
-  Enabled: false
-
-Metrics/AbcSize:
+Metrics/AbcSize: # Reduces the number of disable statements I need to add for perfectly reasonable code
   CountRepeatedAttributes: false
   Max: 20
 
-Metrics/BlockLength:
+Metrics/BlockLength: # Don't worry about long blocks in tests
   CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
   Exclude:
     - 'spec/**/*'
     - 'config/routes.rb'
 
-Metrics/MethodLength:
+Metrics/MethodLength: # Longer methods are sometimes necessary
   Max: 20
   CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
   Exclude:
     - 'spec/**/*'
 
-Naming/AccessorMethodName:
+Naming/AccessorMethodName: # Sometimes get is a useful prefix
   Enabled: false
 
-Naming/MethodParameterName:
+Style/Documentation: # Not all classes need a big comment at the top
   Enabled: false
 
-Naming/VariableNumber:
-  Enabled: false
-
-Style/BlockComments:
-  Exclude:
-    - 'spec/**/*'
-
-Style/Documentation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
+Style/FrozenStringLiteralComment: # Life is too short to be adding a magic comment to every document
   Enabled: false
   
-Style/HashSyntax:
-  EnforcedShorthandSyntax: never
-
-Style/NumericLiterals:
-  Enabled: false
-
-Style/OptionalBooleanParameter:
-  Enabled: false
-
-Style/RegexpLiteral:
-  Enabled: false
-
-Style/StringConcatenation:
-  Enabled: false
-
-Style/StringLiterals:
-  Enabled: false
-
-Style/TrailingCommaInArrayLiteral:
+Style/TrailingCommaInArrayLiteral: # Trailing commas mean cleaner diffs
   EnforcedStyleForMultiline: comma
 
-Style/TrailingCommaInHashLiteral:
+Style/TrailingCommaInHashLiteral: # Trailing commas mean cleaner diffs
   EnforcedStyleForMultiline: comma
+
+Style/StringLiterals: # Life is too short to argue about single vs double quotes
+  Enabled: false
