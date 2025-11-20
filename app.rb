@@ -54,7 +54,6 @@ end
 get '/' do
   @document = Document.new(data: OutlineClient.new.get_collection, is_collection: true)
   @title = 'dxw’s Playbook'
-  @status = :ok
   erb :document
 end
 
