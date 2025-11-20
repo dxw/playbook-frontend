@@ -101,8 +101,8 @@ RSpec.describe UrlMapper do
     context 'when mapping exists' do
       let(:path) { '/guides/getting-started' }
 
-      it 'extracts document ID from new URL' do
-        expect(redirect_url).to eq('/doc/abc123')
+      it 'extracts path from new URL' do
+        expect(redirect_url).to eq('/doc/getting-started-abc123')
       end
     end
 

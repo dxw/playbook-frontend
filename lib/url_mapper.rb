@@ -27,8 +27,8 @@ class UrlMapper
     mapping = find_mapping(url)
     return nil unless mapping
 
-    # Extract document ID from the new URL
-    mapping[:new_url] =~ /\/doc\/.*?-([a-zA-Z0-9]+)$/ ? "/doc/#{::Regexp.last_match(1)}" : nil
+    # Extract path from the new URL
+    mapping[:new_url] =~ /\/doc\/.*?-[a-zA-Z0-9]+$/ ? ::Regexp.last_match(0) : nil
   end
 
   private
@@ -38,12 +38,7 @@ class UrlMapper
 
     mappings = []
     CSV.foreach(@mapping_file, headers: true) do |row|
-      mappings << {
-        old_url: row['old_url'],
-        new_url: row['new_url'],
-        title: row['title'],
-        migrated_at: row['migrated_at'],
-      }
+      mappings << row.to_h.transform_keys(&:to_sym)
     end
     mappings
   rescue StandardError => e
