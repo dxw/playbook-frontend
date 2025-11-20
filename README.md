@@ -25,13 +25,14 @@ This application uses [Rollbar](https://rollbar.com/) for error tracking and mon
 ## Running the Application
 
 ### Development
+Run with automatic reloading on file changes:
 ```bash
 bundle exec rerun ruby app.rb
 ```
 
 ### Production
 ```bash
-bundle exec puma
+bundle exec ruby app.rb
 ```
 
 The application will be available at `http://localhost:4567`
