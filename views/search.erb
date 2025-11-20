@@ -4,9 +4,9 @@
     <% if @has_private_results %>
       <p>Some private pages were also returned by the search. dxw staff can view them <a href="https://dxw.getoutline.com/search?q=<%= @query %>">here</a>.</p>
     <% end %>
-    
-    <% if @results && @results.any? %>
-      <div class="search-results">        
+
+    <% if @results&.any? %>
+      <div class="search-results">
         <% @results.each do |result| %>
           <div class="search-result-item">
             <h2 class="search-result-title">
