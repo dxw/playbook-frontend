@@ -38,7 +38,7 @@ class Document
   end
 
   def updated_at
-    @doc['updatedAt'] ? Time.parse(@doc['updatedAt']) : nil
+    Time.parse(@doc['updatedAt']) if @doc['updatedAt']
   end
 
   def children
