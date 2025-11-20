@@ -65,12 +65,14 @@ class OutlineClient
 
   def make_request(endpoint, body = nil, follow_redirects: true)
     puts "Making request to #{endpoint} with body: #{body.inspect}"
-    options = { headers: {
-      'Authorization' => "Bearer #{@api_key}",
-      'Content-Type'  => 'application/json',
-    } }
+    options = {
+      headers: {
+        'Authorization' => "Bearer #{@api_key}",
+        'Content-Type'  => 'application/json',
+      },
+      follow_redirects: follow_redirects,
+    }
     options[:body] = body.to_json if body
-    options[:follow_redirects] = follow_redirects
 
     response = self.class.post("https://app.getoutline.com/api/#{endpoint}", options)
 
