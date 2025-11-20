@@ -28,7 +28,7 @@ class UrlMapper
     return nil unless mapping
 
     # Extract path from the new URL
-    mapping[:new_url] =~ /\/doc\/.*?-[a-zA-Z0-9]+$/ ? ::Regexp.last_match(0) : nil
+    mapping[:new_url] =~ %r{/doc/.*?-[a-zA-Z0-9]+$} ? ::Regexp.last_match(0) : nil
   end
 
   private
