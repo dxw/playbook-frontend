@@ -99,7 +99,7 @@ get '/stylesheets/style.css' do
   pass if settings.environment == :production
 
   content_type 'text/css', charset: 'utf-8'
-  puts "Compiling SASS for development..."
+  puts "Compiling Sass for development..."
   sass_file = File.read('assets/stylesheets/all.scss')
   Sass.compile_string(sass_file,
                       style: :compressed,
