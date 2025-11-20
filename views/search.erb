@@ -2,11 +2,11 @@
   <% if @query && !@query.empty? %>
     <h1>Showing <%= @results.length %> result<%= @results.length == 1 ? '' : 's' %> for "<%= @query %>"</h1>
     <% if @has_private_results %>
-      <p>Some private pages were also returned by the search. dxw staff can view them <a href="https://dxw.getoutline.com/search?q=<%= @query %>">here</a>.</p>
+      <p>Some private pages were also returned by the search. dxw staff can view them <a aria-label="Results from private pages" href="https://dxw.getoutline.com/search?q=<%= @query %>">here</a>.</p>
     <% end %>
-    
+
     <% if @results && @results.any? %>
-      <div class="search-results">        
+      <div class="search-results">
         <% @results.each do |result| %>
           <div class="search-result-item">
             <h2 class="search-result-title">
