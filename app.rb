@@ -69,7 +69,7 @@ get '/doc/:id' do
     status 500
     erb :error
   else
-    @title = 'Document Not Found'
+    @title = 'Document not found'
     status 404
     erb :not_found
   end
@@ -99,7 +99,7 @@ get '/stylesheets/style.css' do
   pass if settings.environment == :production
 
   content_type 'text/css', charset: 'utf-8'
-  puts "Compiling SASS for development..."
+  puts "Compiling Sass for development..."
   sass_file = File.read('assets/stylesheets/all.scss')
   Sass.compile_string(sass_file,
                       style: :compressed,
