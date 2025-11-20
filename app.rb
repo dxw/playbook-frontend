@@ -69,7 +69,7 @@ get '/doc/:id' do
     status 500
     erb :error
   else
-    @title = 'Document Not Found'
+    @title = 'Document not found'
     status 404
     erb :not_found
   end
