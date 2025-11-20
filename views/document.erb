@@ -11,13 +11,11 @@
     </ul>
   <% else %>
     <%= @document.content %>
-    <hr>
-    <p id="last-review-and-updated">
-      <i>
-        <% if @document.updated_at %>
-          Last updated: <%= @document.updated_at.strftime("%-d %B %Y") %>
-        <% end %>
-      </i>
-    </p>
+    <% if @document.updated_at %>
+      <hr>
+      <p id="last-review-and-updated">
+        <i>Last updated: <%= @document.updated_at.strftime("%-d %B %Y") %></i>
+      </p>
+    <% end %>
   <% end %>
 </article>
