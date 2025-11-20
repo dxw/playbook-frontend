@@ -48,7 +48,7 @@ class Document
   end
 
   def valid?
-    !@doc.nil? && !@doc.empty? && !@doc.key?('error')
+    !@doc.nil? && !@doc.empty? && !error?
   end
 
   def error?
