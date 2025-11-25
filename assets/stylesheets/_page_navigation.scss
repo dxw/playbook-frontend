@@ -35,19 +35,42 @@ $list-d-size: 11px;
     padding: 0;
     list-style: none;
 
+    @include breakpoints.on-small-screens { 
+      &:has(.current-page) { // When we're on anything other than the home page
+        li {
+          display: none;
+        }
+      }
+    }
+
     li {
       margin: 0.5rem 0;
       padding-right: 2em;
       white-space: nowrap;
 
+      @include breakpoints.on-small-screens {
+        &:has(.current-page) {
+          display: block;
+        }
+      }
+
       &.current-page {
+        display: block;
+
         > a {
           font-weight: bold;
         }
 
         // Show child lists of the current page
         > ul {
-          display: block;
+          display: flex;
+          @include breakpoints.on-large-screens {
+            display: block;
+          }
+
+          li {
+            display: block;
+          }
         }
       }
 
