@@ -93,7 +93,7 @@ get '/search' do
 end
 
 # Sass compilation route (development only - production serves from public/)
-get '/stylesheets/style.css' do
+get '/assets/stylesheets/style.css' do
   # In production, let static file serving handle this
   pass if settings.environment == :production
 
