@@ -5,3 +5,9 @@ $large: 800px;
     @content;
   }
 }
+
+@mixin on-small-screens {
+  @media screen and (max-width: #{$large - 1}) {
+    @content;
+  }
+}
