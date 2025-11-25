@@ -10,7 +10,7 @@ RSpec.describe SearchResult do
       }
 
       result = SearchResult.new(data: data)
-      expect(result.context).to eq('This is the search <mark>context</mark>')
+      expect(result.context).to eq('...This is the search <mark>context</mark>...')
     end
 
     it 'creates an associated document' do

@@ -7,6 +7,6 @@ class SearchResult
   end
 
   def context
-    @result['context']
+    "...#{@result['context']}..."
   end
 end
