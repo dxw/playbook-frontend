@@ -111,7 +111,7 @@ class Document
     html.gsub(%r{<h([1-6])[^>]*>([^<]+)</h\1>}) do |_match|
       level = Regexp.last_match(1)
       content = Regexp.last_match(2)
-      anchor_id = content.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')
+      anchor_id = "h-#{content.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')}"
 
       %(<h#{level} id="#{anchor_id}">#{content} <a href="##{anchor_id}" aria-label="Permalink to #{content}">#</a></h#{level}>)
     end
