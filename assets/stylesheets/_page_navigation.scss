@@ -46,6 +46,7 @@ $list-d-size: 11px;
     li {
       margin: 0.5rem 0;
       padding-right: 2em;
+      scroll-margin: 0.5rem;
       white-space: nowrap;
 
       @include breakpoints.on-small-screens {
