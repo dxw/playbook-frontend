@@ -80,6 +80,9 @@ class Document
 
     # Process markdown through the same helpers used in the app
     processed_content = markdown.gsub('https://dxw.getoutline.com', '')
+                                .gsub('\\n', "<br>") # Fix newlines
+                                .gsub(/ #(\w)/, ' \#\1') # Escape hashtags
+                                .gsub('```', '~~~') # Kramdown does code blocks with ~~~
 
     # Handle attachments
     processed_content.gsub!(%r{/api/attachments\.redirect\?id=([^" ]+)}) do |_match|
