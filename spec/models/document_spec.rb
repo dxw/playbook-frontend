@@ -91,8 +91,8 @@ RSpec.describe Document do
       doc = Document.new(data: build(:document_data, text: '# Test Heading'))
 
       html = doc.content
-      expect(html).to include('id="test-heading"')
-      expect(html).to include('href="#test-heading"')
+      expect(html).to include('id="h-test-heading"')
+      expect(html).to include('href="#h-test-heading"')
     end
 
     it 'replaces outline.com URLs' do
