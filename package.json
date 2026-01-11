@@ -8,6 +8,6 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "sass": "1.97.1"
+    "sass": "1.97.2"
   }
 }
