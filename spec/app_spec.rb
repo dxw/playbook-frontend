@@ -228,4 +228,74 @@ RSpec.describe 'Playbook Overlay Application' do
       end
     end
   end
+
+  describe 'Open Graph meta properties' do
+    before do
+      allow(outline_client).to receive(:get_collection)
+        .and_return(build(:collection_data))
+      get '/'
+    end
+
+    [
+      { property: 'og:locale', content: 'en_GB' },
+      { property: 'og:site_name', content: 'dxw’s Playbook' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:image', content: 'https://playbook.dxw.com/assets/images/dxw-og-image.png' },
+      { property: 'og:image:width', content: '1024' },
+      { property: 'og:image:height', content: '512' },
+      { property: 'og:image:type', content: 'image/png' },
+    ].each do |meta|
+      it "includes #{meta[:property]} property" do
+        expect(last_response.body).to include("<meta property=\"#{meta[:property]}\" content=\"#{meta[:content]}\" />")
+      end
+    end
+
+    context 'when @title is not set' do
+      it 'includes default og:title property' do
+        expect(last_response.body).to include('<meta property="og:title" content="Playbook - dxw" />')
+      end
+    end
+
+    context 'when @title is set' do
+      before do
+        allow(outline_client).to receive(:get_document)
+          .and_return(build(:document_data, title: 'Test Document'))
+        get '/doc/doc123'
+      end
+
+      it 'includes page-specific og:title property' do
+        expect(last_response.body).to include('<meta property="og:title" content="Test Document - Playbook - dxw" />')
+      end
+    end
+
+    context 'when @title is the default playbook title' do
+      before do
+        allow(outline_client).to receive(:get_document)
+          .and_return(build(:document_data, title: "dxw’s Playbook"))
+        get '/doc/doc123'
+      end
+
+      it 'includes default og:title property' do
+        expect(last_response.body).to include('<meta property="og:title" content="Playbook - dxw" />')
+      end
+    end
+  end
+
+  describe 'Twitter meta properties' do
+    before do
+      allow(outline_client).to receive(:get_collection)
+        .and_return(build(:collection_data))
+      get '/'
+    end
+
+    [
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:image', content: 'https://playbook.dxw.com/assets/images/dxw-og-image.png' },
+      { name: 'twitter:site', content: '@dxw' },
+    ].each do |meta|
+      it "includes #{meta[:name]} property" do
+        expect(last_response.body).to include("<meta name=\"#{meta[:name]}\" content=\"#{meta[:content]}\" />")
+      end
+    end
+  end
 end
