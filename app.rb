@@ -7,6 +7,7 @@ require 'byebug' if development?
 require 'rollbar'
 require_relative 'lib/outline_client'
 require_relative 'lib/url_mapper'
+require_relative 'lib/sitemap_generator'
 require_relative 'models/document'
 require_relative 'models/search_result'
 
@@ -90,6 +91,13 @@ get '/search' do
     @title = 'Search'
   end
   erb :search
+end
+
+get '/sitemap.xml' do
+  content_type 'application/xml', charset: 'utf-8'
+
+  pages = OutlineClient.new.get_collection_structure
+  SitemapGenerator.new(base_url: request.base_url, pages: pages).generate
 end
 
 # Sass compilation route (development only - production serves from public/)
