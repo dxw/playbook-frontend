@@ -9,4 +9,8 @@ class SearchResult
   def context
     "...#{@result['context']}..."
   end
+
+  def ranking
+    @result['ranking']
+  end
 end

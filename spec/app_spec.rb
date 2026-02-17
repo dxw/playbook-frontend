@@ -146,6 +146,31 @@ RSpec.describe 'Playbook Overlay Application' do
         expect(last_response.body).not_to include('Some private pages were also returned by the search')
       end
     end
+
+    context 'sorting search results' do
+      let(:response) do
+        [
+          build(:search_result_data, ranking: 0.5, document: build(:document_data, id: 'low', title: 'Low Ranking Doc')),
+          build(:search_result_data, ranking: 2.0, document: build(:document_data, id: 'high', title: 'High Ranking Doc')),
+          build(:search_result_data, ranking: 1.2, document: build(:document_data, id: 'mid', title: 'Mid Ranking Doc')),
+        ]
+      end
+
+      it 'displays results in descending order by ranking' do
+        get '/search?query=test'
+
+        expect(last_response).to be_ok
+
+        # Check that results appear in the correct order in the HTML
+        body = last_response.body
+        high_position = body.index('High Ranking Doc')
+        mid_position = body.index('Mid Ranking Doc')
+        low_position = body.index('Low Ranking Doc')
+
+        expect(high_position).to be < mid_position
+        expect(mid_position).to be < low_position
+      end
+    end
   end
 
   describe 'GET /assets/stylesheets/style.css' do

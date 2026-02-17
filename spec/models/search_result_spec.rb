@@ -49,4 +49,17 @@ RSpec.describe SearchResult do
       expect(result.context).to include('<mark>keyword</mark>')
     end
   end
+
+  describe '#ranking' do
+    it 'returns the ranking score from the search result' do
+      data = {
+        'ranking'  => 2.5,
+        'context'  => 'Test context',
+        'document' => build(:document_data),
+      }
+
+      result = SearchResult.new(data: data)
+      expect(result.ranking).to eq(2.5)
+    end
+  end
 end
