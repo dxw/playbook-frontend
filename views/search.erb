@@ -7,7 +7,7 @@
 
     <% if @results&.any? %>
       <div class="search-results">
-        <% @results.each do |result| %>
+        <% @results.sort_by(&:ranking).reverse.each do |result| %>
           <div class="search-result-item">
             <h2 class="search-result-title">
               <a href="<%= result.doc.url %>"><%= result.doc.title %></a>
