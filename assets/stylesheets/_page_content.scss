@@ -1,17 +1,13 @@
 @use "sass:math";
-
 @use "./colours";
 
 .page-content {
   will-change: scroll-position;
   scroll-behavior: smooth;
-
   overflow-y: auto;
-
   max-width: 40em;
   margin: 0 auto;
   padding: 2em;
-
   font-size: 1em;
 
   > h1 {
@@ -34,7 +30,6 @@
       color: colours.$accent-b;
       text-decoration: none;
       vertical-align: middle;
-
       transition: color 0.2s;
 
       &:hover,

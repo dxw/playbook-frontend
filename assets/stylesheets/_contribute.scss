@@ -9,17 +9,13 @@
     position: fixed;
     bottom: 0;
     left: 0;
-
     display: flex;
     justify-content: space-between;
-
     width: 330px;
     padding: 1em;
-
     font-family: typography.$heading-font-family;
     font-size: 0.9em;
     font-weight: typography.$heading-font-weight;
-
     background-color: colours.$accent-a;
   
     a {

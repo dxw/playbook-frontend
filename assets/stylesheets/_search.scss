@@ -14,10 +14,8 @@
     margin-right: -0.063rem;
     padding: 0.5rem 0.938rem;
     border: 0.063rem solid colours.$navy;
-
     line-height: 1.35;
     color: colours.$navy;
-
     background-color: colours.$ivory;
 
     &:focus {
@@ -27,12 +25,9 @@
 
   &__submit {
     cursor: pointer;
-
     display: flex;
     align-items: center;
-
     border: 0.063rem solid colours.$navy;
-
     background-color: colours.$yellow-light;
 
     &-icon {

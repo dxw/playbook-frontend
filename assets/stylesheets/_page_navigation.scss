@@ -8,13 +8,10 @@ $list-d-size: 11px;
 
 .page-navigation {
   overflow-y: auto;
-
   width: 100%;
   padding: 1em;
-
   font-family: typography.$heading-font-family;
   font-size: 0.9em;
-
   background-color: colours.$accent-a;
 
   a {
@@ -65,6 +62,7 @@ $list-d-size: 11px;
         // Show child lists of the current page
         > ul {
           display: flex;
+
           @include breakpoints.on-large-screens {
             display: block;
           }
@@ -129,14 +127,11 @@ $list-d-size: 11px;
   
       &:not(.related__back-link)::before {
         content: "";
-  
         position: absolute;
         top: 8px;
         left: 0;
-  
         width: $list-d-size;
         height: $list-d-size;
-  
         background: url("/assets/images/d-symbol-blue.svg");
         background-repeat: no-repeat;
         background-size: contain;
