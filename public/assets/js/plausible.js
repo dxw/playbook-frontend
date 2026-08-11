@@ -1,6 +1,6 @@
 const captureAllPageViews = (paramsToRegister) => {
   definePlausibleFunction()
-  window.plausible('pageview', { u: prepareUrl(paramsToRegister) })
+  window.plausible("pageview", { u: prepareUrl(paramsToRegister) })
 }
 
 const definePlausibleFunction = () => {
@@ -12,17 +12,17 @@ const definePlausibleFunction = () => {
 const prepareUrl = (paramsToRegister) => {
   const url = new URL(window.location.href)
   const queryParams = new URLSearchParams(window.location.search)
-  let customUrl = url.protocol + '//' + url.hostname + url
+  let customUrl = url.protocol + "//" + url.hostname + url
     .pathname
-    .replace(/\/$/, '')
+    .replace(/\/$/, "")
   for (const paramName of paramsToRegister) {
-    const paramValue = queryParams.get(paramName)?.split(' ').join('+')
+    const paramValue = queryParams.get(paramName)?.split(" ").join("+")
 
     if (paramValue) {
-      customUrl = customUrl + '/' + paramValue
+      customUrl = customUrl + "/" + paramValue
     }
   }
   return customUrl
 }
 
-captureAllPageViews(['query'])
+captureAllPageViews(["query"])
