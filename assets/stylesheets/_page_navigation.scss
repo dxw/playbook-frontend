@@ -128,7 +128,7 @@ $list-d-size: 11px;
       &:not(.related__back-link)::before {
         content: "";
         position: absolute;
-        top: 8px;
+        top: 5px;
         left: 0;
         width: $list-d-size;
         height: $list-d-size;
