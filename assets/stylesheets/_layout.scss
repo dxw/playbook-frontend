@@ -32,6 +32,8 @@ main {
     left: 0;
     width: $large-screen-header-width;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   main {

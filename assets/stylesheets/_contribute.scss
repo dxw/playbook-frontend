@@ -6,12 +6,8 @@
   display: none;
   
   @include breakpoints.on-large-screens {
-    position: fixed;
-    bottom: 0;
-    left: 0;
     display: flex;
     justify-content: space-between;
-    width: 330px;
     padding: 1em;
     font-family: typography.$heading-font-family;
     font-size: 0.9em;

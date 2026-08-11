@@ -2,8 +2,6 @@
 @use "./colours";
 @use "./typography";
 
-$large-screen-nav-height: 134.992px;
-$large-screen-contribute-height: 63px;
 $list-d-size: 11px;
 
 .page-navigation {
@@ -92,9 +90,9 @@ $list-d-size: 11px;
 
 @include breakpoints.on-large-screens {
   .page-navigation {
-    height: calc(100vh - $large-screen-nav-height - $large-screen-contribute-height);
     padding: 1.5em 1em;
     background-color: colours.$cream;
+    height: stretch;
     
     ul li {
       position: relative;
