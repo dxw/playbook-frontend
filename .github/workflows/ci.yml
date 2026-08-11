@@ -19,7 +19,19 @@ jobs:
           bundler-cache: true
 
       - name: Run RuboCop
-        run: bundle exec rubocop
+        run: npm run lint:ruby
+
+      - name: Install Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Run JS linter
+        run: npm run lint:js
+
+      - name: Run CSS linter
+        run: npm run lint:css
 
   security:
     name: Dependency security audit
