@@ -194,7 +194,7 @@ GEM
     sass-embedded (1.100.0-x86_64-linux-musl)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
-    simplecov (1.0.3)
+    simplecov (1.1.1)
     sinatra (4.2.1)
       logger (>= 1.6.0)
       mustermann (~> 3.0)
