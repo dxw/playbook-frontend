@@ -92,6 +92,7 @@ $list-d-size: 11px;
   .page-navigation {
     padding: 1.5em 1em;
     background-color: colours.$cream;
+    height: -webkit-fill-available;
     height: stretch;
     
     ul li {
