@@ -5,6 +5,7 @@ require_relative 'cache_service'
 
 class OutlineClient
   include HTTParty
+  format :plain
 
   def initialize
     @api_key = ENV.fetch('OUTLINE_API_KEY', nil)
