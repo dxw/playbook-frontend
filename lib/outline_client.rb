@@ -5,6 +5,7 @@ require_relative 'cache_service'
 
 class OutlineClient
   include HTTParty
+
   format :plain
 
   def initialize
