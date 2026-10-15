@@ -2,11 +2,11 @@
   "name": "playbook-overlay",
   "description": "A frontend for dxw's internal playbook, powered by Outline",
   "scripts": {
-    "build": "sass assets/stylesheets/all.scss public/assets/stylesheets/style.css --style=compressed --load-path=assets/stylesheets --load-path=node_modules",
+    "build": "npm run build:css",
+    "build:css": "sass assets/stylesheets/all.scss public/assets/stylesheets/style.css --style=compressed --load-path=assets/stylesheets --load-path=node_modules",
+    "build:css:watch": "sass assets/stylesheets/all.scss public/assets/stylesheets/style.css --style=compressed --load-path=assets/stylesheets --load-path=node_modules --watch",
     "lint:css": "npx stylelint \"assets/stylesheets/**/*.scss\"",
     "lint:css:fix": "npm run lint:css -- --fix",
-    "lint:js": "npx eslint .",
-    "lint:js:fix": "npm run lint:js -- --fix",
     "lint:ruby": "bundle exec rubocop",
     "lint:ruby:fix": "npm run lint:ruby -- -A",
     "lint:all:fix": "npm run lint:js:fix && npm run lint:css:fix && npm run lint:ruby:fix"
