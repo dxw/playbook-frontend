@@ -79,6 +79,75 @@ RSpec.describe Document do
   end
 
   describe '#content' do
+    it 'keeps three-space-indented ordered lists inside their parent item' do
+      markdown = <<~MARKDOWN
+        1. Is the person working on a project that can supply configured IT hardware?
+        2.
+           1. Arrange for this IT hardware to be provided.
+           2. If time scales are too short then dxw will provide IT hardware, if the client permits this.
+        3. Are they from an approved agency?
+      MARKDOWN
+      doc = Document.new(data: build(:document_data, text: markdown))
+
+      expect(doc.content.gsub(/\s+/, ' ')).to eq(
+        '<ol> ' \
+        '<li>Is the person working on a project that can supply configured IT hardware?</li> ' \
+        '<li> <ol> ' \
+        '<li>Arrange for this IT hardware to be provided.</li> ' \
+        '<li>If time scales are too short then dxw will provide IT hardware, if the client permits this.</li> ' \
+        '</ol> </li> ' \
+        '<li>Are they from an approved agency?</li> ' \
+        '</ol>'
+      )
+    end
+
+    it 'keeps unordered subitems nested inside an ordered list' do
+      markdown = <<~MARKDOWN
+        1. Hardware
+           - Laptop
+             - Charger
+        2. Accounts
+      MARKDOWN
+      doc = Document.new(data: build(:document_data, text: markdown))
+
+      expect(doc.content.gsub(/\s+/, ' ')).to eq(
+        '<ol> <li>Hardware <ul> <li>Laptop <ul> <li>Charger</li> </ul> </li> </ul> </li> <li>Accounts</li> </ol>'
+      )
+    end
+
+    it 'nests children when the empty parent has trailing whitespace and blank lines' do
+      markdown = "1. Before\n\n2. \n\n   1. Nested one\n   2. Nested two\n\n3. After\n"
+      doc = Document.new(data: build(:document_data, text: markdown))
+
+      expect(doc.content).to match(%r{<li>\s*<ol>\s*<li>Nested one</li>\s*<li>Nested two</li>\s*</ol>\s*</li>})
+      expect(doc.content.scan('<ol>').length).to eq(2)
+    end
+
+    {
+      'formatted headings'   => '## A **bold** heading',
+      'smart punctuation'    => %q("Hello" -- wait... it's fine.),
+      'footnotes'            => "A note[^1].\n\n[^1]: Footnote content.\n",
+      'definition lists'     => "Term\n: Definition\n",
+      'attributes'           => "Text\n{: .notice}\n",
+      'tables'               => "| Name | Value |\n| --- | ---: |\n| One | Two |\n",
+      'inline syntax'        => ':warning: ~~removed~~ https://example.com',
+      'task lists'           => "- [ ] Pending\n- [x] Done\n",
+      'ordinary lists'       => "1. Before\n2. Parent\n   1. Child\n3. After\n",
+      'four-space nesting'   => "1. Before\n2. \n    1. Child\n3. After\n",
+      'empty sibling items'  => "1. Before\n2. \n3. After\n",
+      'fenced code'          => "~~~\n1. Before\n2.\n   1. Literal child\n~~~\n",
+      'backtick-fenced code' => "```\n1. Before\n2.\n   1. Literal child\n```\n",
+      'unclosed fenced code' => "~~~\n1. Before\n2.\n   1. Literal child\n",
+      'indented code'        => "    1. Before\n    2.\n       1. Literal child\n",
+    }.each do |name, markdown|
+      it "preserves existing Kramdown rendering for #{name}" do
+        doc = Document.new(data: build(:document_data, text: markdown))
+        expected = Kramdown::Document.new(markdown.gsub('```', '~~~')).to_html
+
+        expect(doc.content).to eq(doc.send(:add_anchor_headings, expected).strip)
+      end
+    end
+
     it 'converts markdown to HTML' do
       doc = Document.new(data: build(:document_data, text: '# Hello\n\nThis is **bold** text.'))
 

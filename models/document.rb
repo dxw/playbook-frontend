@@ -85,6 +85,9 @@ class Document
                                 .gsub(/ #(\w)/, ' \#\1') # Escape hashtags
                                 .gsub('```', '~~~') # Kramdown does code blocks with ~~~
 
+    # Normalize empty list items before converting to HTML
+    processed_content = normalize_empty_list_items(processed_content)
+
     # Handle attachments
     processed_content.gsub!(%r{/api/attachments\.redirect\?id=([^" ]+)}) do |_match|
       attachment_id = Regexp.last_match(1)
@@ -93,6 +96,19 @@ class Document
 
     html = Kramdown::Document.new(processed_content).to_html
     add_anchor_headings(html)
+  end
+
+  def normalize_empty_list_items(markdown)
+    pattern = /
+      ^[ ]{0,3}(?<fence>~{3,})[^\n]*\n.*?(?:^[ ]{0,3}\k<fence>~*[ \t]*(?:\n|\z)|\z)
+      | ^(?<item>\d+\.)[ \t]*\n
+        (?=(?:[ \t]*\n)*[ ]{3}\d+\.[ \t])
+        (?<children>(?:[ \t]*\n|[ ]{3,}[^\n]*(?:\n|\z))+)
+    /mx
+    markdown.gsub(pattern) do |block|
+      match = Regexp.last_match
+      match[:item] ? "#{match[:item]} \n#{match[:children].gsub(/^ {3}/, '    ')}" : block
+    end
   end
 
   def md_to_plain_text(markdown)
