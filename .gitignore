@@ -6,3 +6,6 @@
 /coverage
 /spec/examples.txt
 /spec/fixtures/*.csv
+
+# Built assets
+/public/assets
