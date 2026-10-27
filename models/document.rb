@@ -1,5 +1,6 @@
 require 'kramdown'
 
+# rubocop:disable-next Metrics/ClassLength
 class Document
   attr_reader :doc
 
