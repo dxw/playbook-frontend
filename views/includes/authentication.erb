@@ -1,0 +1,12 @@
+<div class="authentication">
+  <% if signed_in? %>
+    <form action="/sign-out" method="post">
+      <button type="submit">Sign out</button>
+    </form>
+  <% else %>
+    <form action="/auth/saml" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= Rack::Protection::AuthenticityToken.token(session) %>">
+      <button type="submit">Sign in with your dxw account</button>
+    </form>
+  <% end %>
+</div>

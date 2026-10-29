@@ -68,6 +68,22 @@ RSpec.describe 'Playbook Overlay Application' do
         expect(last_response).to be_not_found
       end
     end
+
+    context 'when document is private' do
+      let(:response) { build(:document_data, id: 'private123', title: 'Private document [private]') }
+
+      it 'does not show the document to unauthenticated visitors' do
+        get '/doc/private123'
+
+        expect(last_response).to be_not_found
+      end
+
+      it 'shows the document to authenticated dxw users' do
+        get '/doc/private123', {}, 'rack.session' => { user_email: 'person@dxw.com' }
+
+        expect(last_response).to be_ok
+      end
+    end
   end
 
   describe 'GET /search' do
@@ -133,6 +149,14 @@ RSpec.describe 'Playbook Overlay Application' do
 
         expect(last_response).to be_ok
         expect(last_response.body).to include('Some private pages were also returned by the search')
+      end
+
+      it 'shows private results to authenticated dxw users' do
+        get '/search?query=confidential', {}, 'rack.session' => { user_email: 'person@dxw.com' }
+
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Private Doc')
+        expect(last_response.body).not_to include('Some private pages were also returned by the search')
       end
     end
 
@@ -250,6 +274,19 @@ RSpec.describe 'Playbook Overlay Application' do
 
         # Verify the navigation helper was called with collection structure
         expect(outline_client).to have_received(:get_collection_structure)
+      end
+
+      it 'shows private pages to authenticated dxw users' do
+        allow(outline_client).to receive(:get_collection)
+          .and_return(build(:collection_data))
+        allow(outline_client).to receive(:get_collection_structure)
+          .and_return([
+                        build(:document_data, id: 'private123', title: 'Private document [private]'),
+                      ])
+
+        get '/', {}, 'rack.session' => { user_email: 'person@dxw.com' }
+
+        expect(last_response.body).to include('Private document')
       end
     end
   end

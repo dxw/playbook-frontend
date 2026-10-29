@@ -2,10 +2,12 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'dotenv/load'
 require 'kramdown'
+require 'omniauth-saml'
 require 'sass-embedded'
 require 'byebug' if development?
 require 'rollbar'
 require_relative 'lib/outline_client'
+require_relative 'lib/authentication'
 require_relative 'lib/url_mapper'
 require_relative 'lib/sitemap_generator'
 require_relative 'models/document'
@@ -23,6 +25,27 @@ Rollbar.configure do |config|
   config.framework = "Sinatra: #{Sinatra::VERSION}"
 end
 
+session_secret = ENV.fetch('SESSION_SECRET') do
+  raise 'SESSION_SECRET must be configured in production' if production?
+
+  'test-session-secret-must-be-at-least-64-characters-long-for-cookie-security'
+end
+
+use Rack::Session::Cookie,
+    key: 'playbook.session',
+    secret: session_secret,
+    same_site: :lax,
+    secure: production?
+
+use OmniAuth::Builder do
+  provider :saml,
+           assertion_consumer_service_url: ENV.fetch('SAML_ASSERTION_CONSUMER_SERVICE_URL', nil),
+           sp_entity_id: ENV.fetch('SAML_SP_ENTITY_ID', nil),
+           idp_sso_service_url: ENV.fetch('SAML_IDP_SSO_SERVICE_URL', nil),
+           idp_cert: ENV.fetch('SAML_IDP_CERT', nil)&.gsub('\\n', "\n"),
+           name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+end
+
 use Rollbar::Middleware::Rack
 
 # Configure better_errors for development
@@ -35,11 +58,23 @@ if development?
 end
 
 helpers do
+  def signed_in?
+    Authentication.signed_in?(session)
+  end
+
+  def private_page?(page)
+    page['title'].downcase.include?('[private]')
+  end
+
+  def visible_page?(page)
+    !private_page?(page) || signed_in?
+  end
+
   def render_page_navigation(pages = nil, current_page_id = nil)
     pages ||= OutlineClient.new.get_collection_structure
     html = "<ul>"
     pages.each do |page|
-      next if page['title'].downcase.include?('[private]')
+      next unless visible_page?(page)
 
       html += page['id'] == current_page_id ? "<li class='current-page'>" : "<li>"
       html += "<a href='#{page['url']}'>#{page['title']}</a>"
@@ -52,6 +87,24 @@ helpers do
 end
 
 # Routes
+post '/auth/saml/callback' do
+  Authentication.sign_in(session, request.env['omniauth.auth'])
+  halt 403, 'Only dxw accounts can access private playbook pages.' unless signed_in?
+
+  redirect '/'
+end
+
+get '/auth/failure' do
+  @title = 'Sign in failed'
+  status 401
+  erb :error
+end
+
+post '/sign-out' do
+  Authentication.sign_out(session)
+  redirect '/'
+end
+
 get '/' do
   @document = Document.new(data: OutlineClient.new.get_collection, is_collection: true)
   @title = 'dxw’s Playbook'
@@ -60,7 +113,7 @@ end
 
 get '/doc/:id' do
   @document = Document.new(id: params[:id])
-  if @document.valid?
+  if @document.valid? && visible_page?(@document.doc)
     @title = @document.title
     status 200
     erb :document
@@ -79,11 +132,11 @@ get '/search' do
   @query = params[:query] || params[:q]
   if @query && !@query.empty?
     @results = OutlineClient.new.search_documents(@query).map do |result|
-      if result['document']['title'].downcase.include?('[private]')
+      if visible_page?(result['document'])
+        SearchResult.new(data: result)
+      else
         @has_private_results = true
         next
-      else
-        SearchResult.new(data: result)
       end
     end.compact
     @title = 'Search results'
