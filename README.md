@@ -13,6 +13,24 @@ Our new Playbook is managed in [Outline](https://dxw.getoutline.com/). This appl
 2. **Configure environment variables**
    Edit `.env` and set your Outline API credentials
 
+   SAML sign-in also requires:
+
+   ```bash
+   SAML_SP_ENTITY_ID=
+   SAML_IDP_SSO_SERVICE_URL=
+   SAML_IDP_CERT=
+   SAML_ASSERTION_CONSUMER_SERVICE_URL=https://your-host/auth/saml/callback
+   SESSION_SECRET=
+   ```
+
+   `SESSION_SECRET` must be a long random value in production. Obtain the IdP SSO URL and signing certificate from the identity provider's metadata, and configure `SAML_ASSERTION_CONSUMER_SERVICE_URL` as its assertion consumer service URL. Use `https://your-host/auth/saml/metadata` to give the identity provider this application's SAML metadata.
+
+## Authentication
+
+Pages with `[private]` in their title are visible only to signed-in users with a SAML assertion email address ending in `@dxw.com`. Public visitors cannot see these pages in navigation or search, and direct page requests return `404`.
+
+SAML-specific setup is confined to the OmniAuth middleware and callback in `app.rb`. `lib/authentication.rb` owns the application session contract (`user_email`), so an alternative identity provider can replace those integration points without changing visibility logic.
+
 ## Error Monitoring
 
 This application uses [Rollbar](https://rollbar.com/) for error tracking and monitoring. To enable:

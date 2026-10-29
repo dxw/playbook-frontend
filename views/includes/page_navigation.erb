@@ -2,4 +2,7 @@
   <nav aria-label="Page navigation">
     <%= render_page_navigation(nil, @document&.valid? ? @document.id : nil) %>
   </nav>
+  <% unless signed_in? %>
+    <em>To see private pages, you must be logged in.</em>
+  <% end %>
 </aside>

@@ -2,7 +2,8 @@
 @use "./colours";
 @use "./typography";
 
-.contribute {
+.contribute,
+.authentication {
   display: none;
   
   @include breakpoints.on-large-screens {
@@ -12,12 +13,36 @@
     font-family: typography.$heading-font-family;
     font-size: 0.9em;
     font-weight: typography.$heading-font-weight;
-    background-color: colours.$accent-a;
   
-    a {
+    a,
+    button {
       margin: 0;
     }
   }
+}
 
-  
+.contribute {
+  background-color: colours.$accent-a;
+}
+
+.authentication { 
+  background-color: colours.$navy;
+
+  button {
+    background: unset;
+    border: none;
+    padding: 0;
+    color: colours.$ivory;
+    text-decoration: underline;
+    text-decoration-color: colours.$accent-b;
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.1em;
+    cursor: pointer;
+
+    &:active,
+    &:focus,
+    &:hover {
+      text-decoration-color: colours.$ivory;
+    }
+  }
 }

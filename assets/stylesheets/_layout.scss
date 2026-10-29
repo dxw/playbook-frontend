@@ -19,6 +19,8 @@ body {
 
 main {
   flex: 1;
+  min-width: 0;
+  overflow: clip;
 }
 
 @include breakpoints.on-large-screens {

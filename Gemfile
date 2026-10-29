@@ -7,6 +7,7 @@ gem 'dotenv'           # Load environment variables from .env file
 gem 'httparty'         # Simple HTTP client for making API requests to Outline
 gem 'json'             # JSON parsing and generation for API responses
 gem 'kramdown'         # Markdown parser
+gem 'omniauth-saml'    # SAML authentication
 gem 'puma'             # High-performance web server for Ruby applications
 gem 'rackup'           # Rack server command for running web applications
 gem 'redis'            # Redis client for caching
@@ -18,7 +19,8 @@ gem 'sinatra-contrib'  # Extensions for Sinatra (includes reloader for developme
 group :development do
   gem 'better_errors'  # Better error pages with interactive console
   gem 'binding_of_caller' # Provides stack frame context for better_errors
-  gem 'bundler-audit' # Security audit for Bundler dependencies
+  gem 'brakeman'       # Security scanner for Ruby web applications
+  gem 'bundler-audit'  # Security audit for Bundler dependencies
   gem 'byebug'         # Debugging tool for Ruby
   gem 'rerun'          # Automatically restart the app when files change during development
   gem 'rubocop'        # Ruby static code analyzer and formatter
