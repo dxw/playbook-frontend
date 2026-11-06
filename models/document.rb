@@ -1,4 +1,5 @@
 require 'kramdown'
+require 'cgi'
 
 # rubocop:disable-next Metrics/ClassLength
 class Document
@@ -129,12 +130,14 @@ class Document
   end
 
   def add_anchor_headings(html)
-    html.gsub(%r{<h([1-6])[^>]*>([^<]+)</h\1>}) do |_match|
+    html.gsub(%r{<h([1-6])[^>]*>(.*?)</h\1>}m) do |_match|
       level = Regexp.last_match(1)
       content = Regexp.last_match(2)
-      anchor_id = "h-#{content.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')}"
+      text = CGI.unescapeHTML(content.gsub(/<[^>]*>/, ''))
+      anchor_id = "h-#{text.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/^-|-$/, '')}"
+      label = CGI.escapeHTML("Permalink to #{text}")
 
-      %(<h#{level} id="#{anchor_id}">#{content} <a href="##{anchor_id}" aria-label="Permalink to #{content}">#</a></h#{level}>)
+      %(<h#{level} id="#{anchor_id}">#{content} <a href="##{anchor_id}" aria-label="#{label}">#</a></h#{level}>)
     end
   end
 end

@@ -164,6 +164,39 @@ RSpec.describe Document do
       expect(html).to include('href="#h-test-heading"')
     end
 
+    (1..6).each do |level|
+      it "adds a permalink to a bold level #{level} heading" do
+        markdown = "#{'#' * level} **AI dictation tools**"
+        doc = Document.new(data: build(:document_data, text: markdown))
+
+        expect(doc.content).to eq(
+          "<h#{level} id=\"h-ai-dictation-tools\"><strong>AI dictation tools</strong> " \
+          "<a href=\"#h-ai-dictation-tools\" aria-label=\"Permalink to AI dictation tools\">#</a></h#{level}>"
+        )
+      end
+    end
+
+    it 'uses plain text for permalinks while preserving inline heading formatting' do
+      markdown = '## A **bold and *emphasised*** [link](https://example.com) with `code`'
+      doc = Document.new(data: build(:document_data, text: markdown))
+
+      expect(doc.content).to eq(
+        '<h2 id="h-a-bold-and-emphasised-link-with-code">A <strong>bold and <em>emphasised</em></strong> ' \
+        '<a href="https://example.com">link</a> with <code>code</code> ' \
+        '<a href="#h-a-bold-and-emphasised-link-with-code" ' \
+        'aria-label="Permalink to A bold and emphasised link with code">#</a></h2>'
+      )
+    end
+
+    it 'decodes heading entities for the anchor and escapes them in the accessible label' do
+      doc = Document.new(data: build(:document_data, text: '## **AT&amp;T &quot;tools&quot;**'))
+
+      expect(doc.content).to eq(
+        '<h2 id="h-at-t-tools"><strong>AT&amp;T "tools"</strong> ' \
+        '<a href="#h-at-t-tools" aria-label="Permalink to AT&amp;T &quot;tools&quot;">#</a></h2>'
+      )
+    end
+
     it 'replaces outline.com URLs' do
       doc = Document.new(data: build(:document_data, text: '[Link](https://dxw.getoutline.com/doc/test-doc123)'))
 
