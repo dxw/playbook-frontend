@@ -119,4 +119,71 @@ RSpec.describe CacheService do
       end
     end
   end
+
+  describe '#delete' do
+    let(:redis) { instance_double(Redis) }
+    let(:pool) { instance_double(ConnectionPool) }
+
+    context 'when caching is enabled' do
+      before do
+        ENV['REDIS_URL'] = 'redis://localhost:6379'
+        ENV['DISABLE_REDIS_CACHE'] = 'false'
+        allow(ConnectionPool).to receive(:new).and_return(pool)
+        allow(pool).to receive(:with).and_yield(redis)
+        allow(redis).to receive(:ping)
+      end
+
+      it 'deletes the hashed document cache key' do
+        cache_key = "playbook:document:#{Digest::SHA256.hexdigest('document_123')}"
+        allow(redis).to receive(:del).with(cache_key).and_return(1)
+
+        expect(service.delete('document_123')).to eq(1)
+      end
+    end
+
+    context 'when caching is disabled' do
+      before do
+        ENV['REDIS_URL'] = nil
+        ENV['DISABLE_REDIS_CACHE'] = 'false'
+      end
+
+      it 'raises an error' do
+        expect { service.delete('document_123') }.to raise_error('Redis cache is disabled')
+      end
+    end
+  end
+
+  describe '#clear_all' do
+    let(:redis) { instance_double(Redis) }
+    let(:pool) { instance_double(ConnectionPool) }
+
+    context 'when caching is enabled' do
+      before do
+        ENV['REDIS_URL'] = 'redis://localhost:6379'
+        ENV['DISABLE_REDIS_CACHE'] = 'false'
+        allow(ConnectionPool).to receive(:new).and_return(pool)
+        allow(pool).to receive(:with).and_yield(redis)
+        allow(redis).to receive(:ping)
+      end
+
+      it 'deletes keys in the Playbook cache namespace in batches' do
+        cache_keys = %w[playbook:document:one playbook:search:two]
+        allow(redis).to receive(:scan_each).with(match: 'playbook:*', count: 100).and_return(cache_keys.each)
+        expect(redis).to receive(:del).with(*cache_keys).and_return(cache_keys.length)
+
+        expect(service.clear_all).to eq(cache_keys.length)
+      end
+    end
+
+    context 'when caching is disabled' do
+      before do
+        ENV['REDIS_URL'] = nil
+        ENV['DISABLE_REDIS_CACHE'] = 'false'
+      end
+
+      it 'raises an error' do
+        expect { service.clear_all }.to raise_error('Redis cache is disabled')
+      end
+    end
+  end
 end

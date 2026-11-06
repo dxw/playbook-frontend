@@ -29,6 +29,26 @@ class CacheService
     end
   end
 
+  def delete(key, type: :document)
+    raise 'Redis cache is disabled' unless @caching_enabled
+
+    @redis_pool.with do |conn|
+      conn.del(generate_cache_key(key, type))
+    end
+  end
+
+  def clear_all
+    raise 'Redis cache is disabled' unless @caching_enabled
+
+    @redis_pool.with do |conn|
+      deleted = 0
+      conn.scan_each(match: 'playbook:*', count: 100).each_slice(100) do |cache_keys|
+        deleted += conn.del(*cache_keys)
+      end
+      deleted
+    end
+  end
+
   private
 
   def setup_cache

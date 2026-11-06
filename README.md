@@ -57,8 +57,32 @@ bundle exec rake coverage
 
 The application includes Redis caching to improve performance by reducing API calls to Outline. If Redis is not available, the application will run without caching (all requests go directly to Outline's API).
 
-To clear the redis cache:
+To clear one document's cache locally:
 
 ```bash
-redis-cli FLUSHALL
+bundle exec rake "cache:clear_document[DOCUMENT_ID]"
+```
+
+For example, to clear `ai-usage-guidance-eVDXTJHGwD`:
+
+```bash
+bundle exec rake "cache:clear_document[ai-usage-guidance-eVDXTJHGwD]"
+```
+
+To clear one document's cache on Heroku:
+
+```bash
+heroku run -a dxw-playbook-frontend -- bundle exec rake "cache:clear_document[DOCUMENT_ID]"
+```
+
+To clear all Playbook cache entries locally:
+
+```bash
+bundle exec rake cache:clear_all
+```
+
+To clear all Playbook cache entries on Heroku:
+
+```bash
+heroku run -a dxw-playbook-frontend -- bundle exec rake cache:clear_all
 ```
