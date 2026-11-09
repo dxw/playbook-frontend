@@ -10,6 +10,7 @@ require_relative 'lib/outline_client'
 require_relative 'lib/authentication'
 require_relative 'lib/url_mapper'
 require_relative 'lib/sitemap_generator'
+require_relative 'lib/asset_path'
 require_relative 'models/document'
 require_relative 'models/search_result'
 
@@ -68,6 +69,10 @@ helpers do
 
   def visible_page?(page)
     !private_page?(page) || signed_in?
+  end
+
+  def asset_path(path)
+    AssetPath.for(path, public_folder: settings.public_folder, cache: settings.production?)
   end
 
   def render_page_navigation(pages = nil, current_page_id = nil)
