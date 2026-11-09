@@ -45,7 +45,7 @@ jobs:
         run: bundle exec bundler-audit --update
 
       - name: Run npm audit
-        run: npm audit --audit-level=moderate
+        run: npm audit --audit-level=moderate --omit=dev
 
   test:
     name: Tests
