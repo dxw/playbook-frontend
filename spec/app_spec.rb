@@ -86,6 +86,32 @@ RSpec.describe 'Playbook Overlay Application' do
     end
   end
 
+  describe 'GET /doc/:id with the real Outline client' do
+    let(:private_document) { build(:document_data, :private) }
+
+    before do
+      allow(OutlineClient).to receive(:new).and_call_original
+      stub_outline_document_request('private123', private_document)
+      stub_outline_collection_structure_request([
+                                                  private_document.merge('url' => '/doc/private123', 'children' => []),
+                                                ])
+    end
+
+    it 'does not show a private document to unauthenticated visitors' do
+      get '/doc/private123'
+
+      expect(last_response).to be_not_found
+      expect(last_response.body).not_to include('Secret Document')
+    end
+
+    it 'shows a private document to authenticated dxw users' do
+      get '/doc/private123', {}, 'rack.session' => { user_email: 'person@dxw.com' }
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Secret Document')
+    end
+  end
+
   describe 'GET /search' do
     before do
       allow(outline_client).to receive(:search_documents)
@@ -287,6 +313,21 @@ RSpec.describe 'Playbook Overlay Application' do
         get '/', {}, 'rack.session' => { user_email: 'person@dxw.com' }
 
         expect(last_response.body).to include('Private document')
+      end
+
+      it 'hides private pages from unauthenticated visitors' do
+        allow(outline_client).to receive(:get_collection)
+          .and_return(build(:collection_data))
+        allow(outline_client).to receive(:get_collection_structure)
+          .and_return([
+                        build(:document_data, id: 'public123', title: 'Public document'),
+                        build(:document_data, id: 'private123', title: 'Private document [private]'),
+                      ])
+
+        get '/'
+
+        expect(last_response.body).to include('Public document')
+        expect(last_response.body).not_to include('Private document')
       end
     end
   end
