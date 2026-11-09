@@ -22,6 +22,16 @@ class Authentication
     session[:user_email] = email(auth_hash) if dxw_user?(auth_hash)
   end
 
+  # Only allow local paths so the SAML RelayState can't be used as an open redirect.
+  SAFE_RETURN_PATH = %r{\A/(?![/\\])[^\x00-\x20\x7f\\]*\z}
+
+  def self.return_path(path)
+    return '/' unless path.is_a?(String) && path.match?(SAFE_RETURN_PATH)
+    return '/' if path.start_with?('/auth/')
+
+    path
+  end
+
   def self.sign_out(session)
     session.delete(:user_email)
   end

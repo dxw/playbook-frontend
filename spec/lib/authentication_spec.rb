@@ -62,6 +62,32 @@ RSpec.describe Authentication do
     end
   end
 
+  describe '.return_path' do
+    it 'returns a local path with a query string' do
+      expect(Authentication.return_path('/search?query=private')).to eq('/search?query=private')
+    end
+
+    it 'returns a local document path' do
+      expect(Authentication.return_path('/doc/private123')).to eq('/doc/private123')
+    end
+
+    [
+      nil,
+      '',
+      'https://evil.example.com',
+      '//evil.example.com',
+      '/\\evil.example.com',
+      "/\t/evil.example.com",
+      "/doc\r\nSet-Cookie: x=y",
+      'javascript:alert(1)',
+      '/auth/failure',
+    ].each do |path|
+      it "falls back to the home page for #{path.inspect}" do
+        expect(Authentication.return_path(path)).to eq('/')
+      end
+    end
+  end
+
   describe '.sign_out' do
     it 'removes the signed-in user from the session' do
       session[:user_email] = 'person@dxw.com'

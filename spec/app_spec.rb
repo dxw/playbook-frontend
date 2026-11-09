@@ -112,6 +112,54 @@ RSpec.describe 'Playbook Overlay Application' do
     end
   end
 
+  describe 'POST /auth/saml/callback' do
+    before do
+      OmniAuth.config.test_mode = true
+      OmniAuth.config.mock_auth[:saml] = OmniAuth::AuthHash.new(
+        provider: 'saml', uid: 'person@dxw.com', info: { email: 'person@dxw.com' }
+      )
+    end
+
+    after do
+      OmniAuth.config.mock_auth[:saml] = nil
+      OmniAuth.config.test_mode = false
+    end
+
+    it 'returns the user to the page they signed in from' do
+      post '/auth/saml/callback', RelayState: '/search?query=private'
+
+      expect(last_response).to be_redirect
+      expect(URI(last_response.location).request_uri).to eq('/search?query=private')
+    end
+
+    it 'returns the user to the home page when no page is given' do
+      post '/auth/saml/callback'
+
+      expect(URI(last_response.location).request_uri).to eq('/')
+    end
+
+    it 'does not redirect to another site' do
+      post '/auth/saml/callback', RelayState: '//evil.example.com'
+
+      expect(URI(last_response.location).host).to eq('example.org')
+      expect(URI(last_response.location).request_uri).to eq('/')
+    end
+  end
+
+  describe 'sign in form' do
+    before do
+      allow(outline_client).to receive(:get_document)
+        .and_return(build(:document_data))
+    end
+
+    it 'sends the current page as the SAML RelayState' do
+      get '/doc/doc123?foo=1&bar=2'
+
+      expect(last_response.body)
+        .to include('<input type="hidden" name="RelayState" value="/doc/doc123?foo=1&amp;bar=2">')
+    end
+  end
+
   describe 'GET /search' do
     before do
       allow(outline_client).to receive(:search_documents)

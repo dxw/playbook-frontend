@@ -96,7 +96,7 @@ post '/auth/saml/callback' do
   Authentication.sign_in(session, request.env['omniauth.auth'])
   halt 403, 'Only dxw accounts can access private playbook pages.' unless signed_in?
 
-  redirect '/'
+  redirect Authentication.return_path(params['RelayState'])
 end
 
 get '/auth/failure' do
