@@ -1,0 +1,9 @@
+@use "./typography";
+
+.sign-in-form {
+  display: inline;
+
+  button {
+    @include typography.button-as-link;
+  }
+}

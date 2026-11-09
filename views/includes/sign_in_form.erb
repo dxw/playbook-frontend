@@ -1,0 +1,1 @@
+<form class="sign-in-form" action="/auth/saml" method="post"><input type="hidden" name="authenticity_token" value="<%= Rack::Protection::AuthenticityToken.token(session) %>"><button type="submit"><%= label %></button></form>

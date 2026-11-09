@@ -2,7 +2,11 @@
   <% if @query && !@query.empty? %>
     <h1>Showing <%= @results.length %> result<%= @results.length == 1 ? '' : 's' %> for "<%= @query %>"</h1>
     <% if @has_private_results %>
-      <p>Some private pages were also returned by the search. dxw staff can view them <a aria-label="Results from private pages" href="https://dxw.getoutline.com/search?q=<%= @query %>">here</a>.</p>
+      <%# Not a <p>, as forms can't be nested inside paragraphs %>
+      <div class="search-private-results">
+        Some private pages were also returned by the search.
+        <%= erb :'includes/sign_in_form', locals: { label: 'Sign in' } %> to view them.
+      </div>
     <% end %>
 
     <% if @results&.any? %>

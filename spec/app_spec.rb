@@ -177,6 +177,13 @@ RSpec.describe 'Playbook Overlay Application' do
         expect(last_response.body).to include('Some private pages were also returned by the search')
       end
 
+      it 'shows a sign in link within the private results message' do
+        get '/search?query=confidential'
+
+        expect(last_response.body).to match(%r{Sign in</button></form>\s+to view them\.})
+        expect(last_response.body.scan('action="/auth/saml"').length).to eq(2)
+      end
+
       it 'shows private results to authenticated dxw users' do
         get '/search?query=confidential', {}, 'rack.session' => { user_email: 'person@dxw.com' }
 
