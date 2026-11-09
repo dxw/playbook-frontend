@@ -25,8 +25,9 @@ RSpec.describe OutlineClient do
     context 'when the document is private' do
       let(:document_data) { build(:document_data, :private) }
 
-      it 'returns nil' do
-        expect(result).to be_nil
+      it 'returns the document so visibility can be decided by the caller' do
+        expect(result['id']).to eq('private123')
+        expect(result['title']).to eq('[PRIVATE] Secret Document')
       end
     end
 
