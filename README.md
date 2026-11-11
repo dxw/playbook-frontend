@@ -112,9 +112,14 @@ The application will be available at `http://localhost:4567`
 # Run all tests
 bundle exec rspec
 
+# Run accessibility checks (requires Chrome)
+bundle exec rspec spec/accessibility_spec.rb
+
 # Run with coverage report
 bundle exec rake coverage
 ```
+
+Accessibility checks use axe-core to test rendered pages against WCAG 2.2 AA.
 
 ## Caching
 
