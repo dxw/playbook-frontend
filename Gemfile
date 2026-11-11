@@ -27,9 +27,12 @@ group :development do
 end
 
 group :test do
+  gem 'axe-core-rspec' # Automated accessibility checks for rendered pages
+  gem 'capybara'       # Browser-based application testing
   gem 'factory_bot'    # Creating test data
   gem 'rack-test'      # Testing API for Rack apps
   gem 'rspec'          # Testing framework for Ruby
   gem 'simplecov'      # Code coverage analysis tool
+  gem 'selenium-webdriver' # Browser driver for accessibility tests
   gem 'webmock'        # Library for stubbing HTTP requests
 end

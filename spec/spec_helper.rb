@@ -11,6 +11,8 @@ Bundler.require(:default, :test)
 
 require 'rspec'
 require 'rack/test'
+require 'capybara/rspec'
+require 'axe-rspec'
 require 'webmock/rspec'
 require 'factory_bot'
 
