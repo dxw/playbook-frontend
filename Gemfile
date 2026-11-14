@@ -34,5 +34,6 @@ group :test do
   gem 'rspec'          # Testing framework for Ruby
   gem 'selenium-webdriver' # Browser driver for accessibility tests
   gem 'simplecov'      # Code coverage analysis tool
+  gem 'selenium-webdriver' # Browser driver for accessibility tests
   gem 'webmock'        # Library for stubbing HTTP requests
 end
